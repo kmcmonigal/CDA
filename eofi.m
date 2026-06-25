@@ -29,7 +29,7 @@ elseif d==3
 end
 
 %weight by cosine of latitude
-weight=repmat(abs(cosd(lat)),1,length(lon));
+weight=repmat(sqrt(abs(cosd(lat))),1,length(lon));
 if 1
 data_w=data.*weight.';
 end
@@ -76,9 +76,13 @@ for i=1:neof
     if d==3
         EOF(:,:,i)=(Q(:,:,i)*G(i,i))./(weight.');
         EOFi(:,:,i)=(Q(:,:,i).*weight.')./(G(i,i));
+        %EOF(:,:,i)=(Q(:,:,i))./(weight.');
+        %EOFi(:,:,i)=(Q(:,:,i).*weight.');
     else
         EOF(:,i)=(Q(:,i)*G(i,i))./(weight.');
         EOFi(:,i)=(Q(:,i).*weight.')./(G(i,i));
+        %EOF(:,i)=(Q(:,i))./(weight.');
+        %EOFi(:,i)=(Q(:,i).*weight.');
     end
     PC(:,i)=A(:,i)/std(A(:,i)); 
     FEXPVAR(i)=G(i,i)/sum(sum(G)); % percent variance explained
